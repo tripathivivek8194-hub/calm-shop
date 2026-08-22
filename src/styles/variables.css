@@ -1,0 +1,105 @@
+/* Calm Design System - Color, Spacing, Typography */
+:root {
+  /* Colors - Warm, muted palette */
+  --bg: #faf9f7;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #f3f1ee;
+  --text: #2d2b28;
+  --text-muted: #6b6863;
+  --text-subtle: #9b9791;
+  --accent: #8b7d6b;
+  --accent-hover: #7a6d5d;
+  --accent-light: #e8e2db;
+  --border: #e8e4df;
+  --border-strong: #dcd8d3;
+  --shadow: 0 2px 12px rgba(45, 43, 40, 0.06);
+  --shadow-lg: 0 8px 32px rgba(45, 43, 40, 0.1);
+  --shadow-xl: 0 16px 48px rgba(45, 43, 40, 0.12);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 120ms ease;
+  --transition: 200ms ease;
+  --transition-slow: 350ms ease;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --text-xs: 0.7rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  /* Spacing Scale */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Layout */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1440px;
+  --header-height: 72px;
+
+  /* Z-index */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal-backdrop: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}
+
+/* Dark mode (optional - respects system preference) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1917;
+    --bg-elevated: #23211f;
+    --bg-subtle: #2d2b28;
+    --text: #f5f3f0;
+    --text-muted: #a8a49e;
+    --text-subtle: #78746e;
+    --accent: #b8a58f;
+    --accent-hover: #c9b6a0;
+    --accent-light: #3d3833;
+    --border: #3d3833;
+    --border-strong: #4a453f;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition: 0ms;
+    --transition-slow: 0ms;
+  }
+}
