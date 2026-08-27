@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
 import { Layout } from './components/layout/Layout'
 import { Seo } from './components/Seo'
@@ -24,10 +24,12 @@ function ProtectedRoute({ children }) {
 }
 
 function App() {
+  const baseName = '/calm-shop/';
   return (
     <>
       <Seo />
     <Suspense fallback={<PageLoader />}>
+    <BrowserRouter basename={baseName}>
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
@@ -43,6 +45,7 @@ function App() {
         <Route path="*" element={<InfoPage />} />
       </Route>
     </Routes>
+    </BrowserRouter>
     </Suspense>
     </>
   )
