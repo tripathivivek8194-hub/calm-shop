@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
-import { ShoppingBag, Menu, X, Sun, Moon } from 'lucide-react';
+import { useWishlist } from '../../context/WishlistContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { ShoppingBag, Heart, UserRound, LogOut, Menu, X, Sun, Moon } from 'lucide-react';
 import './Header.css';
 
 export function Header() {
   const location = useLocation();
   const { itemCount, toggleCart, isOpen: cartOpen } = useCart();
+  const { itemCount: wishlistItemCount } = useWishlist();
+  const { user, isAuthenticated, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -22,7 +26,14 @@ export function Header() {
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const stored = localStorage.getItem('darkMode');
-    const initial = stored ? JSON.parse(stored) : prefersDark;
+    let initial = prefersDark;
+    if (stored) {
+      try {
+        initial = JSON.parse(stored);
+      } catch (e) {
+        console.warn('Failed to parse darkMode from localStorage:', e);
+      }
+    }
     setDarkMode(initial);
     document.documentElement.classList.toggle('dark', initial);
   }, []);
@@ -47,7 +58,7 @@ export function Header() {
           <span className="logo-text">calm<span>shop</span></span>
         </Link>
 
-        <nav className={`nav ${mobileMenuOpen ? 'open' : ''}`} role="navigation" aria-label="Main navigation">
+        <nav id="main-nav" className={`nav ${mobileMenuOpen ? 'open' : ''}`} aria-label="Main navigation">
           <ul className="nav-list">
             {navLinks.map(({ path, label }) => (
               <li key={path}>
@@ -72,6 +83,36 @@ export function Header() {
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
+
+          <Link
+            to="/wishlist"
+            className="icon-btn wishlist-header-btn"
+            aria-label={`Wishlist${wishlistItemCount > 0 ? ` with ${wishlistItemCount} items` : ', empty'}`}
+          >
+            <Heart size={20} aria-hidden="true" />
+            {wishlistItemCount > 0 && (
+              <span className="wishlist-count" aria-live="polite" aria-atomic="true">
+                {wishlistItemCount > 99 ? '99+' : wishlistItemCount}
+              </span>
+            )}
+          </Link>
+
+          {isAuthenticated ? (
+            <>
+              <Link to="/account" className="account-link" aria-label="Your account">
+                <UserRound size={18} aria-hidden="true" />
+                <span>{user.name}</span>
+              </Link>
+              <button className="icon-btn" onClick={logout} aria-label="Log out">
+                <LogOut size={20} aria-hidden="true" />
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="account-link" aria-label="Log in or create an account">
+              <UserRound size={18} aria-hidden="true" />
+              <span>Account</span>
+            </Link>
+          )}
 
           <button
             className="icon-btn cart-btn"

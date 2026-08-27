@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { getFeaturedProducts, formatPrice } from '../data/products';
-import { ChevronRight, Sparkles, Leaf, Droplets, Gem } from 'lucide-react';
+import { ChevronRight, Sparkles, Leaf, Droplets, Gem, Heart } from 'lucide-react';
+import { useWishlist } from '../context/WishlistContext';
 import './Home.css';
 
 export function Home() {
+  const { toggleItem, isInWishlist } = useWishlist();
   const featuredProducts = getFeaturedProducts().slice(0, 4);
 
   const values = [
@@ -54,25 +56,36 @@ export function Home() {
           </Link>
         </div>
         <div className="product-grid" role="list">
-          {featuredProducts.map((product) => (
-            <article key={product.id} className="product-card" role="listitem">
-              <Link to={`/shop/${product.slug}`} className="product-card-link" aria-label={product.name}>
-                <div className="product-image" aria-hidden="true">
-                  <div
-                    className="product-color-preview"
-                    style={{
-                      background: `linear-gradient(135deg, ${product.color} 0%, ${product.secondaryColor} 100%)`
-                    }}
-                  />
-                </div>
-                <div className="product-info">
-                  <span className="product-category">{product.category}</span>
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-price">{formatPrice(product.price)}</p>
-                </div>
-              </Link>
-            </article>
-          ))}
+          {featuredProducts.map((product) => {
+            const inWishlist = isInWishlist(product.id);
+            return (
+              <article key={product.id} className="product-card" role="listitem">
+                <Link to={`/shop/${product.slug}`} className="product-card-link" aria-label={product.name}>
+                  <div className="product-image" aria-hidden="true">
+                    <div
+                      className="product-color-preview"
+                      style={{
+                        background: `linear-gradient(135deg, ${product.color} 0%, ${product.secondaryColor} 100%)`
+                      }}
+                    />
+                  </div>
+                  <div className="product-info">
+                    <span className="product-category">{product.category}</span>
+                    <h3 className="product-name">{product.name}</h3>
+                    <p className="product-price">{formatPrice(product.price)}</p>
+                  </div>
+                </Link>
+                <button
+                  className={`wishlist-btn-card ${inWishlist ? 'active' : ''}`}
+                  onClick={() => toggleItem(product)}
+                  aria-label={inWishlist ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+                  aria-pressed={inWishlist}
+                >
+                  <Heart size={18} aria-hidden="true" />
+                </button>
+              </article>
+            );
+          })}
         </div>
       </section>
 

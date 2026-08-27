@@ -87,6 +87,61 @@
   border-bottom: 1px solid var(--border-light);
 }
 
+.search-field {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+}
+
+.search-input-wrap svg:first-child {
+  position: absolute;
+  left: 12px;
+  pointer-events: none;
+}
+
+.search-input-wrap input {
+  width: 100%;
+  padding: 11px 40px 11px 40px;
+  color: var(--text-soft);
+  background: var(--bg-input);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+}
+
+.search-input-wrap input::placeholder {
+  color: var(--text-light);
+}
+
+.search-input-wrap input:focus {
+  outline: none;
+  border-color: var(--pastel-lavender);
+  box-shadow: 0 0 0 3px rgba(216, 200, 240, 0.2);
+}
+
+.clear-search {
+  position: absolute;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--text-muted);
+  border-radius: var(--radius-full);
+}
+
+.clear-search:hover {
+  color: var(--text-soft);
+  background: var(--border-light);
+}
+
 .sidebar-title {
   font-size: 1.125rem;
   font-weight: 600;

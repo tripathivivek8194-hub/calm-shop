@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Banknote, ChevronLeft, ChevronRight, Check, CreditCard, Smartphone, Truck, Shield, Lock, Mail, MapPin, Phone, User } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useOrders } from '../context/OrderContext';
 import { formatPrice } from '../data/products';
 import './Checkout.css';
 
@@ -53,13 +54,14 @@ const showLegacyStates = import.meta.env.VITE_SHOW_LEGACY_STATES === 'true';
 
 export function Checkout() {
   const { items, subtotal, clearCart } = useCart();
+  const { addOrder } = useOrders();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
-  const [orderNumber] = useState(() => `CS-${Date.now().toString(36).toUpperCase()}`);
+  const [orderNumber, setOrderNumber] = useState('');
 
   const shipping = subtotal >= 100 ? 0 : 12;
   const total = subtotal + shipping;
@@ -112,9 +114,14 @@ export function Checkout() {
                 <span>Secure payment processed</span>
               </div>
             </div>
-            <Link to="/" className="btn btn-primary btn-lg" onClick={() => { clearCart(); setOrderConfirmed(false); }}>
-              Return Home
-            </Link>
+            <div className="confirmation-actions">
+              <Link to="/account" className="btn btn-primary btn-lg">
+                View Order Details
+              </Link>
+              <Link to="/" className="btn btn-secondary btn-lg" onClick={() => { setOrderConfirmed(false); }}>
+                Return Home
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -193,6 +200,34 @@ export function Checkout() {
     setIsSubmitting(true);
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsSubmitting(false);
+
+    // Create order
+    const order = addOrder({
+      email: formData.email,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      address: formData.address,
+      apartment: formData.apartment,
+      city: formData.city,
+      state: formData.state,
+      zipCode: formData.zipCode,
+      country: formData.country,
+      phone: formData.phone,
+      paymentMethod: formData.paymentMethod,
+      items: items.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        color: item.color,
+        slug: item.slug,
+      })),
+      subtotal,
+      shipping: subtotal >= 100 ? 0 : 12,
+      total: subtotal + (subtotal >= 100 ? 0 : 12),
+    });
+
+    setOrderNumber(order.id);
     setOrderConfirmed(true);
     clearCart();
     window.scrollTo({ top: 0, behavior: 'smooth' });

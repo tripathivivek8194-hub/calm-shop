@@ -1,0 +1,228 @@
+.review-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  max-width: 600px;
+  width: 100%;
+}
+
+.review-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.review-form-header h3 {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.review-form-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--surface-hover);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.review-form-close:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.review-form--login-prompt {
+  padding: var(--space-12) var(--space-6);
+}
+
+.login-prompt {
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.login-prompt-icon {
+  color: var(--accent);
+  margin-bottom: var(--space-4);
+  opacity: 0.8;
+}
+
+.login-prompt h3 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xl);
+}
+
+.login-prompt p {
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-6);
+}
+
+.login-prompt-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.field-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: var(--space-2);
+}
+
+.required {
+  color: var(--error);
+}
+
+.rating-field .field-label {
+  margin-bottom: var(--space-3);
+}
+
+.star-rating-input {
+  display: flex;
+  gap: var(--space-2);
+  direction: rtl;
+  justify-content: flex-start;
+}
+
+.star-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--border);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.star-btn:hover,
+.star-btn.filled {
+  color: var(--warning);
+  transform: scale(1.1);
+}
+
+.star-btn.selected {
+  color: var(--warning);
+}
+
+.star-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.field-hint {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+  display: block;
+}
+
+.field-input,
+.field-textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--background);
+  color: var(--text);
+  font-size: var(--text-base);
+  font-family: inherit;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-sizing: border-box;
+}
+
+.field-input:focus,
+.field-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.field-textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.field-counter {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.field-counter.warning {
+  color: var(--warning);
+}
+
+.min-chars {
+  opacity: 0.7;
+}
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  border-radius: var(--radius-md);
+  color: var(--error);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+.form-note {
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 640px) {
+  .review-form {
+    padding: var(--space-4);
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+}

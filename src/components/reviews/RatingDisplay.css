@@ -1,0 +1,103 @@
+.rating-display {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 1px;
+}
+
+.rating-stars .filled {
+  color: var(--warning);
+}
+
+.rating-stars .half {
+  position: relative;
+  color: var(--border);
+}
+
+.rating-stars .half::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: var(--warning);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rating-value {
+  font-weight: 600;
+  font-size: var(--text-lg);
+  color: var(--text);
+}
+
+.rating-count {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.rating-count.no-reviews {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Size variants */
+.rating-sm .rating-stars svg {
+  width: 14px;
+  height: 14px;
+}
+
+.rating-sm .rating-value {
+  font-size: var(--text-base);
+}
+
+.rating-sm .rating-count {
+  font-size: var(--text-xs);
+}
+
+.rating-md .rating-stars svg {
+  width: 18px;
+  height: 18px;
+}
+
+.rating-md .rating-value {
+  font-size: var(--text-lg);
+}
+
+.rating-md .rating-count {
+  font-size: var(--text-sm);
+}
+
+.rating-lg .rating-stars svg {
+  width: 24px;
+  height: 24px;
+}
+
+.rating-lg .rating-value {
+  font-size: var(--text-xl);
+}
+
+.rating-lg .rating-count {
+  font-size: var(--text-base);
+}
+
+/* Interactive state */
+.rating-display.interactive {
+  cursor: pointer;
+}
+
+.rating-display.interactive:hover .rating-stars .filled {
+  transform: scale(1.1);
+  transition: transform var(--transition-fast);
+}
+
+.rating-display.interactive:hover .rating-count {
+  color: var(--accent);
+}

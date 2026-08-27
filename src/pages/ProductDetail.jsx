@@ -1,8 +1,12 @@
-import { useState, Suspense, lazy } from 'react';
+import { useState, Suspense, lazy, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Minus, Plus, Heart, Share2, Truck, Shield, RotateCcw } from 'lucide-react';
 import { getProductBySlug, getInStockProducts, formatPrice } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
+import { useReviews } from '../contexts/ReviewsContext';
+import { ReviewList, ReviewForm, ReviewSummary } from '../components/reviews';
+import { useAuth } from '../contexts/AuthContext';
 import './ProductDetail.css';
 
 const ProductViewer = lazy(() => import('../components/product/ProductViewer').then(module => ({ default: module.ProductViewer })));
@@ -10,11 +14,20 @@ const ProductViewer = lazy(() => import('../components/product/ProductViewer').t
 export function ProductDetail() {
   const { slug } = useParams();
   const { addItem } = useCart();
+  const { toggleItem, isInWishlist } = useWishlist();
+  const { getReviewStats } = useReviews();
   const product = getProductBySlug(slug);
   const allProducts = getInStockProducts();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showViewer, setShowViewer] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [activeTab, setActiveTab] = useState('description');
+
+  const handleReviewSubmitted = useCallback(() => {
+    setShowReviewForm(false);
+    setActiveTab('reviews');
+  }, []);
 
   if (!product) {
     return (
@@ -32,6 +45,9 @@ export function ProductDetail() {
       </div>
     );
   }
+
+  const inWishlist = isInWishlist(product.id);
+  const reviewStats = getReviewStats(product.id);
 
   const relatedProducts = allProducts
     .filter(p => p.id !== product.id && p.category === product.category)
@@ -60,23 +76,11 @@ export function ProductDetail() {
         </div>
       </nav>
 
-      <main className="product-main">
+      <div className="product-main">
         <div className="container">
           <div className="product-layout">
             <div className="product-gallery">
               <div className="main-viewer">
-                <div className="viewer-placeholder" onClick={() => setShowViewer(true)}>
-                  <div
-                    className="product-color-large"
-                    style={{
-                      background: `linear-gradient(135deg, ${product.color} 0%, ${product.secondaryColor} 100%)`
-                    }}
-                  />
-                  <div className="viewer-overlay">
-                    <span>View 3D Model</span>
-                  </div>
-                </div>
-
                 <Suspense fallback={<div className="viewer-loading">Loading 3D viewer...</div>}>
                   <ProductViewer
                     geometryType={product.geometryType}
@@ -86,6 +90,15 @@ export function ProductDetail() {
                     className="product-viewer-canvas"
                   />
                 </Suspense>
+
+                <button
+                  className="view-fullscreen-btn"
+                  onClick={() => setShowViewer(true)}
+                  aria-label="View 3D model in fullscreen"
+                >
+                  <RotateCcw size={18} aria-hidden="true" />
+                  <span>View Fullscreen</span>
+                </button>
               </div>
 
               <div className="thumbnails" role="group" aria-label="Product images">
@@ -185,11 +198,13 @@ export function ProductDetail() {
                   Add to Cart
                 </button>
                 <button
-                  className="btn btn-secondary btn-lg btn-full wishlist-btn"
-                  aria-label="Add to wishlist"
+                  className={`btn btn-secondary btn-lg btn-full wishlist-btn ${inWishlist ? 'active' : ''}`}
+                  onClick={() => toggleItem(product)}
+                  aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+                  aria-pressed={inWishlist}
                 >
-                  <Heart size={20} aria-hidden="true" />
-                  Save for Later
+                  <Heart size={20} aria-hidden="true" style={{ fill: inWishlist ? 'currentColor' : 'none' }} />
+                  {inWishlist ? 'Saved' : 'Save for Later'}
                 </button>
               </div>
 
@@ -241,17 +256,55 @@ export function ProductDetail() {
             </div>
           </section>
 
+          <ReviewSummary
+              productId={product.id}
+              showWriteButton
+              onWriteClick={() => setShowReviewForm(true)}
+            />
+
           <section className="product-details-tabs" aria-labelledby="details-title">
             <h2 id="details-title" className="visually-hidden">Product Details</h2>
             <div className="tabs">
               <div className="tab-list" role="tablist">
-                <button role="tab" aria-selected="true" className="tab-btn active">Description</button>
-                <button role="tab" aria-selected="false" className="tab-btn">Specifications</button>
-                <button role="tab" aria-selected="false" className="tab-btn">Care Guide</button>
-                <button role="tab" aria-selected="false" className="tab-btn">Reviews</button>
+                <button
+                  role="tab"
+                  aria-selected={activeTab === 'description'}
+                  className={`tab-btn ${activeTab === 'description' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('description')}
+                >
+                  Description
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={activeTab === 'specifications'}
+                  className={`tab-btn ${activeTab === 'specifications' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('specifications')}
+                >
+                  Specifications
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={activeTab === 'care'}
+                  className={`tab-btn ${activeTab === 'care' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('care')}
+                >
+                  Care Guide
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={activeTab === 'reviews'}
+                  className={`tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('reviews')}
+                >
+                  Reviews <span className="tab-review-count">({reviewStats.totalReviews})</span>
+                </button>
               </div>
 
-              <div role="tabpanel" className="tab-panel active">
+              <div
+                role="tabpanel"
+                className={`tab-panel ${activeTab === 'description' ? 'active' : ''}`}
+                hidden={activeTab !== 'description'}
+              >
                 <div className="tab-content">
                   <h3>The Story Behind {product.name}</h3>
                   <p>{product.description}</p>
@@ -270,7 +323,11 @@ export function ProductDetail() {
                 </div>
               </div>
 
-              <div role="tabpanel" className="tab-panel" hidden>
+              <div
+                role="tabpanel"
+                className={`tab-panel ${activeTab === 'specifications' ? 'active' : ''}`}
+                hidden={activeTab !== 'specifications'}
+              >
                 <div className="tab-content">
                   <table className="specs-table">
                     <tbody>
@@ -286,7 +343,11 @@ export function ProductDetail() {
                 </div>
               </div>
 
-              <div role="tabpanel" className="tab-panel" hidden>
+              <div
+                role="tabpanel"
+                className={`tab-panel ${activeTab === 'care' ? 'active' : ''}`}
+                hidden={activeTab !== 'care'}
+              >
                 <div className="tab-content">
                   <h4>Care Instructions</h4>
                   <ul>
@@ -303,41 +364,28 @@ export function ProductDetail() {
                 </div>
               </div>
 
-              <div role="tabpanel" className="tab-panel" hidden>
-                <div className="tab-content">
-                  <div className="reviews-summary">
-                    <div className="overall-rating">
-                      <span className="rating-score">4.9</span>
-                      <span className="rating-stars">★★★★★</span>
-                      <span className="rating-count">Based on 24 reviews</span>
-                    </div>
-                  </div>
-                  <div className="reviews-list">
-                    <article className="review">
-                      <header className="review-header">
-                        <div className="reviewer">Sarah M.</div>
-                        <div className="review-rating">★★★★★</div>
-                      </header>
-                      <p className="review-text">"Absolutely stunning piece. The way it catches light throughout the day brings such calm energy to my workspace. Worth every penny."</p>
-                      <time className="review-date">2 weeks ago</time>
-                    </article>
-                    <article className="review">
-                      <header className="review-header">
-                        <div className="reviewer">James K.</div>
-                        <div className="review-rating">★★★★★</div>
-                      </header>
-                      <p className="review-text">"The geometry is mesmerizing. I find myself just watching it rotate slowly. It's become a daily meditation anchor for me."</p>
-                      <time className="review-date">1 month ago</time>
-                    </article>
-                    <article className="review">
-                      <header className="review-header">
-                        <div className="reviewer">Elena R.</div>
-                        <div className="review-rating">★★★★☆</div>
-                      </header>
-                      <p className="review-text">"Beautiful craftsmanship and the color is exactly as shown. Packaging was also lovely - felt like opening a gift."</p>
-                      <time className="review-date">3 months ago</time>
-                    </article>
-                  </div>
+              <div
+                role="tabpanel"
+                className={`tab-panel ${activeTab === 'reviews' ? 'active' : ''}`}
+                hidden={activeTab !== 'reviews'}
+              >
+                <div className="tab-content reviews-tab-content">
+                  {showReviewForm ? (
+                    <ReviewForm
+                      productId={product.id}
+                      onClose={() => setShowReviewForm(false)}
+                      onSuccess={handleReviewSubmitted}
+                    />
+                  ) : (
+                    <>
+                      <ReviewSummary
+                        productId={product.id}
+                        showWriteButton
+                        onWriteClick={() => setShowReviewForm(true)}
+                      />
+                      <ReviewList productId={product.id} />
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -347,30 +395,41 @@ export function ProductDetail() {
             <section className="related-products" aria-labelledby="related-title">
               <h2 id="related-title" className="section-title">You May Also Like</h2>
               <div className="product-grid" role="list">
-                {relatedProducts.map((related) => (
-                  <article key={related.id} className="product-card" role="listitem">
+                {relatedProducts.map((related) => {
+                  const inWishlist = isInWishlist(related.id);
+                  return (
+                    <article key={related.id} className="product-card" role="listitem">
                     <Link to={`/shop/${related.slug}`} className="product-card-link" aria-label={related.name}>
                       <div className="product-image" aria-hidden="true">
-                        <div
-                          className="product-color-preview"
-                          style={{
-                            background: `linear-gradient(135deg, ${related.color} 0%, ${related.secondaryColor} 100%)`
-                          }}
-                        />
+                          <div
+                            className="product-color-preview"
+                            style={{
+                              background: `linear-gradient(135deg, ${related.color} 0%, ${related.secondaryColor} 100%)`
+                            }}
+                          />
                       </div>
-                      <div className="product-info">
-                        <span className="product-category">{related.category}</span>
-                        <h3 className="product-name">{related.name}</h3>
-                        <p className="product-price">{formatPrice(related.price)}</p>
+                        <div className="product-info">
+                          <span className="product-category">{related.category}</span>
+                          <h3 className="product-name">{related.name}</h3>
+                          <p className="product-price">{formatPrice(related.price)}</p>
                       </div>
                     </Link>
+                    <button
+                      className={`wishlist-btn-card ${inWishlist ? 'active' : ''}`}
+                      onClick={() => toggleItem(related)}
+                      aria-label={inWishlist ? `Remove ${related.name} from wishlist` : `Add ${related.name} to wishlist`}
+                      aria-pressed={inWishlist}
+                    >
+                      <Heart size={18} aria-hidden="true" />
+                    </button>
                   </article>
-                ))}
+                  );
+                })}
               </div>
             </section>
           )}
         </div>
-      </main>
+      </div>
 
       {showViewer && (
         <div className="viewer-modal" role="dialog" aria-modal="true" aria-labelledby="viewer-modal-title">

@@ -1,0 +1,12 @@
+# Calm Shop - robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://calmshop.com/sitemap.xml
+
+# Disallow admin/checkout pages from indexing
+Disallow: /checkout
+Disallow: /account
+Disallow: /cart
+Disallow: /wishlist

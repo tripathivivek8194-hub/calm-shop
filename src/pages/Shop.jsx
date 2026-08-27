@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { getInStockProducts, getCategories, formatPrice } from '../data/products';
-import { Filter, X, Grid, List } from 'lucide-react';
+import { Filter, Search, X, Grid, List, Heart } from 'lucide-react';
+import { useWishlist } from '../context/WishlistContext';
 import './Shop.css';
 
 const SORT_OPTIONS = [
@@ -16,15 +17,29 @@ export function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [viewMode, setViewMode] = useState('grid');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const { toggleItem, isInWishlist } = useWishlist();
 
   const category = searchParams.get('category') || 'all';
   const sort = searchParams.get('sort') || 'featured';
+  const query = searchParams.get('q') || '';
 
   const allProducts = getInStockProducts();
   const categories = getCategories();
 
   const filteredProducts = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
     let result = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
+
+    if (normalizedQuery) {
+      result = result.filter((product) => [
+        product.name,
+        product.category,
+        product.description,
+        product.shortDescription,
+        product.material,
+        ...product.tags,
+      ].some((value) => value.toLowerCase().includes(normalizedQuery)));
+    }
 
     switch (sort) {
       case 'price-asc':
@@ -43,7 +58,7 @@ export function Shop() {
         result = [...result].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
     }
     return result;
-  }, [allProducts, category, sort]);
+  }, [allProducts, category, query, sort]);
 
   const updateCategory = (newCategory) => {
     const params = new URLSearchParams(searchParams);
@@ -65,11 +80,21 @@ export function Shop() {
     setSearchParams(params);
   };
 
+  const updateQuery = (newQuery) => {
+    const params = new URLSearchParams(searchParams);
+    if (newQuery.trim()) {
+      params.set('q', newQuery);
+    } else {
+      params.delete('q');
+    }
+    setSearchParams(params, { replace: true });
+  };
+
   const clearFilters = () => {
     setSearchParams({});
   };
 
-  const hasActiveFilters = category !== 'all';
+  const hasActiveFilters = category !== 'all' || sort !== 'featured' || Boolean(query);
 
   return (
     <div className="shop">
@@ -93,6 +118,30 @@ export function Shop() {
                   Clear All
                 </button>
               )}
+            </div>
+
+            <div className="search-field">
+              <label className="filter-label" htmlFor="product-search">Search products</label>
+              <div className="search-input-wrap">
+                <Search size={18} aria-hidden="true" />
+                <input
+                  id="product-search"
+                  type="search"
+                  value={query}
+                  onChange={(event) => updateQuery(event.target.value)}
+                  placeholder="Search by name, material, or mood"
+                />
+                {query && (
+                  <button
+                    type="button"
+                    className="clear-search"
+                    onClick={() => updateQuery('')}
+                    aria-label="Clear search"
+                  >
+                    <X size={16} aria-hidden="true" />
+                  </button>
+                )}
+              </div>
             </div>
 
             <fieldset className="filter-group">
@@ -142,10 +191,10 @@ export function Shop() {
           </div>
         </aside>
 
-        <main className="shop-main">
+        <div className="shop-main">
           <div className="shop-toolbar">
             <p className="results-count">
-              Showing <strong>{filteredProducts.length}</strong> of <strong>{allProducts.length}</strong> products
+              {query ? <>Found <strong>{filteredProducts.length}</strong> result{filteredProducts.length === 1 ? '' : 's'} for “{query}”</> : <>Showing <strong>{filteredProducts.length}</strong> of <strong>{allProducts.length}</strong> products</>}
             </p>
             <div className="toolbar-actions">
               <button
@@ -181,7 +230,7 @@ export function Shop() {
             <div className="no-results">
               <div className="no-results-icon" aria-hidden="true">🔍</div>
               <h2>No products found</h2>
-              <p>Try adjusting your filters or browse all products</p>
+              <p>Try a different search term or adjust your filters.</p>
               <button className="btn btn-primary" onClick={clearFilters}>
                 <X size={16} aria-hidden="true" />
                 Clear Filters
@@ -189,36 +238,47 @@ export function Shop() {
             </div>
           ) : (
             <div className={`product-grid ${viewMode}`} role="list">
-              {filteredProducts.map((product) => (
-                <article key={product.id} className="product-card" role="listitem">
-                  <Link to={`/shop/${product.slug}`} className="product-card-link" aria-label={product.name}>
-                    <div className="product-image" aria-hidden="true">
-                      <div
-                        className="product-color-preview"
-                        style={{
-                          background: `linear-gradient(135deg, ${product.color} 0%, ${product.secondaryColor} 100%)`
-                        }}
-                      />
-                      {product.originalPrice && (
-                        <span className="sale-badge">Sale</span>
-                      )}
-                    </div>
-                    <div className="product-info">
-                      <span className="product-category">{product.category}</span>
-                      <h3 className="product-name">{product.name}</h3>
-                      <div className="product-pricing">
-                        <span className="product-price">{formatPrice(product.price)}</span>
+              {filteredProducts.map((product) => {
+                const inWishlist = isInWishlist(product.id);
+                return (
+                  <article key={product.id} className="product-card" role="listitem">
+                    <Link to={`/shop/${product.slug}`} className="product-card-link" aria-label={product.name}>
+                      <div className="product-image" aria-hidden="true">
+                        <div
+                          className="product-color-preview"
+                          style={{
+                            background: `linear-gradient(135deg, ${product.color} 0%, ${product.secondaryColor} 100%)`
+                          }}
+                        />
                         {product.originalPrice && (
-                          <span className="original-price">{formatPrice(product.originalPrice)}</span>
+                          <span className="sale-badge">Sale</span>
                         )}
                       </div>
-                    </div>
-                  </Link>
-                </article>
-              ))}
+                      <div className="product-info">
+                        <span className="product-category">{product.category}</span>
+                        <h3 className="product-name">{product.name}</h3>
+                        <div className="product-pricing">
+                          <span className="product-price">{formatPrice(product.price)}</span>
+                          {product.originalPrice && (
+                            <span className="original-price">{formatPrice(product.originalPrice)}</span>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                    <button
+                      className={`wishlist-btn-card ${inWishlist ? 'active' : ''}`}
+                      onClick={() => toggleItem(product)}
+                      aria-label={inWishlist ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+                      aria-pressed={inWishlist}
+                    >
+                      <Heart size={18} aria-hidden="true" />
+                    </button>
+                  </article>
+                );
+              })}
             </div>
           )}
-        </main>
+        </div>
       </div>
     </div>
   );

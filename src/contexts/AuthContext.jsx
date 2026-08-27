@@ -8,19 +8,11 @@ const initialUser = null;
 
 export function AuthProvider({ children }) {
   const [savedUser, setSavedUser] = useLocalStorage('calm-shop-user', null);
-  const [user, setUser] = useState(savedUser);
-  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(() => savedUser); // Initialize directly from localStorage
+  const [isLoading, setIsLoading] = useState(false); // No async loading needed
   const [authMode, setAuthMode] = useState(null); // 'login' | 'signup' | null
 
-  // Initialize from localStorage
-  useEffect(() => {
-    if (savedUser) {
-      setUser(savedUser);
-    }
-    setIsLoading(false);
-  }, [savedUser]);
-
-  // Persist user changes
+  // Persist user changes - only effect needed
   useEffect(() => {
     setSavedUser(user);
   }, [user, setSavedUser]);

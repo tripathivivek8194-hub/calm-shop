@@ -25,7 +25,7 @@ export function CartDrawer() {
     };
   }, [isOpen, closeCart]);
 
-  if (!isOpen && items.length === 0) return null;
+  if (!isOpen) return null;
 
   const shipping = subtotal >= 100 ? 0 : 12;
   const total = subtotal + shipping;

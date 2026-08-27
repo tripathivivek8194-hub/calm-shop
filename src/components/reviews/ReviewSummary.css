@@ -1,0 +1,148 @@
+.review-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.review-summary--empty {
+  text-align: center;
+  padding: var(--space-10) var(--space-5);
+}
+
+.empty-rating {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--accent-bg);
+  color: var(--accent);
+  margin-bottom: var(--space-4);
+}
+
+.empty-text {
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-4);
+}
+
+.summary-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.overall-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--background);
+  border-radius: var(--radius-md);
+}
+
+.rating-number {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 2px;
+  color: var(--warning);
+}
+
+.review-count-text {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.rating-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.rating-bar-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.bar-label {
+  width: 50px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease-out;
+}
+
+.bar-count {
+  width: 45px;
+  text-align: right;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+}
+
+.write-review-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  width: fit-content;
+  align-self: center;
+}
+
+@media (min-width: 768px) {
+  .review-summary {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .summary-main {
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .overall-score {
+    flex-direction: row;
+    text-align: left;
+    min-width: 200px;
+  }
+
+  .rating-bars {
+    flex: 1;
+    max-width: 300px;
+  }
+
+  .write-review-btn {
+    margin-top: 0;
+    margin-left: var(--space-4);
+    flex-shrink: 0;
+  }
+}

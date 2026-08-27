@@ -81,6 +81,14 @@ export function validateCVC(cvc) {
   return /^\d{3,4}$/.test(cvc);
 }
 
+export function validatePINCode(pin) {
+  return /^[1-9][0-9]{5}$/.test(pin);
+}
+
+export function validateCardNumber(number) {
+  return /^\d{16}$/.test(number);
+}
+
 export function validateZipCode(zip, country = 'US') {
   if (country === 'US') return /^\d{5}(-\d{4})?$/.test(zip);
   if (country === 'CA') /^[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d$/.test(zip);
