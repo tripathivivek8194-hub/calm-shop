@@ -14,6 +14,7 @@ const Wishlist = lazy(() => import('./pages/Wishlist').then((module) => ({ defau
 const InfoPage = lazy(() => import('./pages/InfoPage').then((module) => ({ default: module.InfoPage })))
 const Auth = lazy(() => import('./pages/Auth').then((module) => ({ default: module.Auth })))
 const Account = lazy(() => import('./pages/Account').then((module) => ({ default: module.Account })))
+const Admin = lazy(() => import('./pages/Admin').then((module) => ({ default: module.Admin })))
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth()
@@ -39,6 +40,7 @@ function App() {
             <Route path="/login" element={<Auth />} />
             <Route path="/register" element={<Auth />} />
             <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
             <Route path="/:page" element={<InfoPage />} />
             <Route path="*" element={<InfoPage />} />
           </Route>

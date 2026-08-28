@@ -103,6 +103,10 @@ export function Header() {
                 <UserRound size={18} aria-hidden="true" />
                 <span>{user.name}</span>
               </Link>
+              <Link to="/admin" className="account-link admin-link" aria-label="Admin dashboard">
+                <span>⚙️</span>
+                <span>Admin</span>
+              </Link>
               <button className="icon-btn" onClick={logout} aria-label="Log out">
                 <LogOut size={20} aria-hidden="true" />
               </button>

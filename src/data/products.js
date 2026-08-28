@@ -5,6 +5,8 @@ const products = [
     slug: 'aurora-sphere-cluster',
     price: 128,
     originalPrice: null,
+    costPrice: 77,
+    supplierId: 'SUP-DEMO-1',
     description: 'A delicate arrangement of translucent spheres capturing the gentle gradient of dawn. Each sphere catches and refracts light differently, creating a calm, meditative presence in any space.',
     shortDescription: 'Translucent sphere arrangement with dawn gradients',
     category: 'spheres',
@@ -17,6 +19,11 @@ const products = [
     inStock: true,
     featured: true,
     tags: ['calm', 'glass', 'dawn', 'meditative'],
+    margin: 40,
+    supplierSku: 'ZEN-SPH-001',
+    barcode: '8901234567890',
+    hsCode: '70139900',
+    originCountry: 'India',
   },
   {
     id: 'torus-knot-1',
@@ -24,6 +31,8 @@ const products = [
     slug: 'infinity-torus-knot',
     price: 156,
     originalPrice: null,
+    costPrice: 94,
+    supplierId: 'SUP-DEMO-3',
     description: 'An elegant mathematical form that flows endlessly without beginning or end. The torus knot represents harmony and continuous flow, rendered in soft matte pastel tones.',
     shortDescription: 'Endless mathematical form in soft matte finish',
     category: 'knots',
@@ -36,6 +45,11 @@ const products = [
     inStock: true,
     featured: true,
     tags: ['infinity', 'mathematical', 'harmony', 'flow'],
+    margin: 40,
+    supplierSku: 'MGC-KNT-001',
+    barcode: '8901234567891',
+    hsCode: '70139900',
+    originCountry: 'India',
   },
   {
     id: 'icosahedron-1',
@@ -43,6 +57,8 @@ const products = [
     slug: 'celestial-icosahedron',
     price: 98,
     originalPrice: null,
+    costPrice: 59,
+    supplierId: 'SUP-DEMO-1',
     description: 'Twenty identical triangular faces form this perfect platonic solid. Associated with water and flow in sacred geometry, this piece brings a sense of balance and tranquility.',
     shortDescription: 'Perfect platonic solid with translucent faces',
     category: 'platonic',
@@ -55,6 +71,11 @@ const products = [
     inStock: true,
     featured: false,
     tags: ['sacred geometry', 'water', 'balance', 'platonic'],
+    margin: 40,
+    supplierSku: 'ZEN-PLA-001',
+    barcode: '8901234567892',
+    hsCode: '70139900',
+    originCountry: 'India',
   },
   {
     id: 'blob-1',
@@ -62,6 +83,8 @@ const products = [
     slug: 'morning-dew-blob',
     price: 142,
     originalPrice: 168,
+    costPrice: 85,
+    supplierId: 'SUP-DEMO-2',
     description: 'Organic, amorphous form inspired by surface tension and fluid dynamics. The metaball surface shifts and flows, capturing a moment of liquid stillness in solid form.',
     shortDescription: 'Organic metaball form capturing liquid stillness',
     category: 'organic',
@@ -74,6 +97,11 @@ const products = [
     inStock: true,
     featured: true,
     tags: ['organic', 'fluid', 'metaball', 'surface tension'],
+    margin: 40,
+    supplierSku: 'ACI-ORG-001',
+    barcode: '8901234567893',
+    hsCode: '34060000',
+    originCountry: 'India',
   },
   {
     id: 'dodecahedron-1',
@@ -81,6 +109,8 @@ const products = [
     slug: 'lavender-dodecahedron',
     price: 112,
     originalPrice: null,
+    costPrice: 67,
+    supplierId: 'SUP-DEMO-1',
     description: 'Twelve pentagonal faces create this cosmic form. Historically associated with the universe itself, this piece features subtle faceted reflections in calming lavender tones.',
     shortDescription: 'Twelve-faced cosmic form with faceted reflections',
     category: 'platonic',
@@ -93,6 +123,11 @@ const products = [
     inStock: true,
     featured: false,
     tags: ['cosmic', 'universe', 'pentagonal', 'crystal'],
+    margin: 40,
+    supplierSku: 'ZEN-PLA-002',
+    barcode: '8901234567894',
+    hsCode: '70139900',
+    originCountry: 'India',
   },
   {
     id: 'geode-1',
@@ -100,6 +135,8 @@ const products = [
     slug: 'crystal-geode-slice',
     price: 188,
     originalPrice: null,
+    costPrice: 113,
+    supplierId: 'SUP-DEMO-3',
     description: 'A cross-section of crystalline growth, revealing layers of mineral beauty. Each angular facet catches light differently, creating a miniature landscape of pastel crystallization.',
     shortDescription: 'Crystalline cross-section with layered facets',
     category: 'geodes',
@@ -112,6 +149,11 @@ const products = [
     inStock: true,
     featured: true,
     tags: ['crystal', 'mineral', 'geode', 'facets'],
+    margin: 40,
+    supplierSku: 'MGC-GEO-001',
+    barcode: '8901234567895',
+    hsCode: '71039900',
+    originCountry: 'India',
   },
   {
     id: 'sphere-cluster-2',
@@ -119,6 +161,8 @@ const products = [
     slug: 'peach-blossom-spheres',
     price: 134,
     originalPrice: null,
+    costPrice: 80,
+    supplierId: 'SUP-DEMO-1',
     description: 'A clustering of warm peach-toned spheres, each with a subtle pearlescent finish. Arranged in natural, asymmetric harmony reminiscent of spring blossoms.',
     shortDescription: 'Pearlescent sphere cluster in warm peach tones',
     category: 'spheres',
@@ -131,6 +175,11 @@ const products = [
     inStock: true,
     featured: false,
     tags: ['pearl', 'spring', 'blossom', 'asymmetric'],
+    margin: 40,
+    supplierSku: 'ZEN-SPH-002',
+    barcode: '8901234567896',
+    hsCode: '70139900',
+    originCountry: 'India',
   },
   {
     id: 'torus-knot-2',
@@ -138,6 +187,8 @@ const products = [
     slug: 'mint-torus-flow',
     price: 164,
     originalPrice: null,
+    costPrice: 98,
+    supplierId: 'SUP-DEMO-3',
     description: 'A more complex torus knot with additional windings, creating deeper shadow play. The fresh mint tone brings a breath of calm energy to the mathematical elegance.',
     shortDescription: 'Complex torus knot with deeper shadow play',
     category: 'knots',
@@ -150,6 +201,11 @@ const products = [
     inStock: true,
     featured: false,
     tags: ['complex', 'mint', 'shadow', 'winding'],
+    margin: 40,
+    supplierSku: 'MGC-KNT-002',
+    barcode: '8901234567897',
+    hsCode: '70139900',
+    originCountry: 'India',
   },
   {
     id: 'octahedron-1',
@@ -157,6 +213,8 @@ const products = [
     slug: 'blue-hour-octahedron',
     price: 86,
     originalPrice: null,
+    costPrice: 52,
+    supplierId: 'SUP-DEMO-1',
     description: 'Eight triangular faces meeting at perfect points. This platonic solid represents air and mental clarity, rendered in the soft blue of twilight hour.',
     shortDescription: 'Eight-faced platonic solid in twilight blue',
     category: 'platonic',
@@ -169,6 +227,11 @@ const products = [
     inStock: true,
     featured: false,
     tags: ['air', 'clarity', 'twilight', 'platonic'],
+    margin: 40,
+    supplierSku: 'ZEN-PLA-003',
+    barcode: '8901234567898',
+    hsCode: '70139900',
+    originCountry: 'India',
   },
   {
     id: 'blob-2',
@@ -176,6 +239,8 @@ const products = [
     slug: 'lavender-dream-blob',
     price: 158,
     originalPrice: null,
+    costPrice: 95,
+    supplierId: 'SUP-DEMO-2',
     description: 'A softer, more elongated organic form with multiple lobes merging into one. The lavender hue deepens in the recesses, creating natural gradient depth.',
     shortDescription: 'Multi-lobed organic form with natural gradients',
     category: 'organic',
@@ -188,6 +253,11 @@ const products = [
     inStock: false,
     featured: false,
     tags: ['dream', 'multi-lobed', 'gradient', 'organic'],
+    margin: 40,
+    supplierSku: 'ACI-ORG-002',
+    barcode: '8901234567899',
+    hsCode: '34060000',
+    originCountry: 'India',
   },
   {
     id: 'geode-2',
@@ -195,6 +265,8 @@ const products = [
     slug: 'rose-quartz-geode',
     price: 210,
     originalPrice: 245,
+    costPrice: 126,
+    supplierId: 'SUP-DEMO-3',
     description: 'Larger geode formation with delicate crystalline structures in rose and cream tones. The cavity sparkles with micro-facets, each catching light independently.',
     shortDescription: 'Large geode with micro-crystalline cavity',
     category: 'geodes',
@@ -207,6 +279,11 @@ const products = [
     inStock: true,
     featured: true,
     tags: ['rose quartz', 'micro-crystals', 'sparkle', 'cavity'],
+    margin: 40,
+    supplierSku: 'MGC-GEO-002',
+    barcode: '8901234567900',
+    hsCode: '71039900',
+    originCountry: 'India',
   },
   {
     id: 'tetrahedron-1',
@@ -214,6 +291,8 @@ const products = [
     slug: 'cream-tetrahedron',
     price: 72,
     originalPrice: null,
+    costPrice: 43,
+    supplierId: 'SUP-DEMO-1',
     description: 'The simplest platonic solid — four triangular faces forming a perfect pyramid. Minimal, grounding, and timeless in warm cream matte finish.',
     shortDescription: 'Simplest platonic solid in warm cream matte',
     category: 'platonic',
@@ -226,6 +305,11 @@ const products = [
     inStock: true,
     featured: false,
     tags: ['minimal', 'pyramid', 'grounding', 'simple'],
+    margin: 40,
+    supplierSku: 'ZEN-PLA-004',
+    barcode: '8901234567901',
+    hsCode: '70139900',
+    originCountry: 'India',
   },
 ];
 
@@ -262,10 +346,11 @@ export function getCategories() {
   }));
 }
 
+export function getProductsBySupplier(supplierId) {
+  return products.filter(p => p.supplierId === supplierId);
+}
+
 export function formatPrice(price) {
-  // Product values originated in the prototype's base catalogue. Display them
-  // as fixed INR prices so every product, cart total, and shipping amount uses
-  // the same India-focused pricing scale.
   const inrPrice = price * 85;
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -280,4 +365,12 @@ export function generateSlug(name) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+}
+
+export function calculateMargin(costPrice, retailPrice) {
+  return Math.round(((retailPrice - costPrice) / retailPrice) * 100);
+}
+
+export function calculateProfit(costPrice, retailPrice, quantity = 1) {
+  return (retailPrice - costPrice) * quantity;
 }

@@ -6,6 +6,7 @@ import { WishlistProvider } from './context/WishlistContext'
 import { AuthProvider } from './contexts/AuthContext'
 import { ReviewsProvider } from './contexts/ReviewsContext'
 import { OrderProvider } from './context/OrderContext'
+import { DropshipProvider } from './context/DropshipContext'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import './index.css'
 import App from './App.jsx'
@@ -17,11 +18,13 @@ createRoot(document.getElementById('root')).render(
         <AuthProvider>
           <ReviewsProvider>
             <OrderProvider>
-              <CartProvider>
-                <WishlistProvider>
-                  <App />
-                </WishlistProvider>
-              </CartProvider>
+              <DropshipProvider>
+                <CartProvider>
+                  <WishlistProvider>
+                    <App />
+                  </WishlistProvider>
+                </CartProvider>
+              </DropshipProvider>
             </OrderProvider>
           </ReviewsProvider>
         </AuthProvider>

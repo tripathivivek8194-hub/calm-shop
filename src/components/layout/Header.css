@@ -137,6 +137,17 @@
   .account-link { width: 44px; height: 44px; justify-content: center; padding: 0; }
 }
 
+.admin-link {
+  background: var(--pastel-lavender);
+  color: var(--pastel-cream) !important;
+}
+
+.admin-link:hover {
+  background: var(--pastel-lavender);
+  opacity: 0.9;
+  color: var(--pastel-cream) !important;
+}
+
 .icon-btn {
   display: flex;
   align-items: center;
