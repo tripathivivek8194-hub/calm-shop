@@ -12,6 +12,21 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Store","name":"Calm Shop","description":"Curated geometric forms for calm spaces.","email":"hello@calmshop.com","currenciesAccepted":"INR","paymentAccepted":"Card"}</script>
     <meta name="description" content="Calm Shop — curated geometric forms for peaceful spaces." />
     <title>Calm Shop — Geometric Forms for Calm Spaces</title>
+    <script>
+      // SPA redirect handling for GitHub Pages
+      // Converts hash-based URLs (from 404.html redirect) back to path-based URLs
+      (function() {
+        var basePath = '/calm-shop/';
+        var hash = window.location.hash;
+
+        if (hash && hash.startsWith('#')) {
+          // Remove the hash and replace with path
+          var path = hash.substring(1);
+          // Replace the current URL without adding to history
+          window.history.replaceState(null, null, basePath + path);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <script>
+    // Single Page App redirect for GitHub Pages
+    // This handles the 404 on page refresh by redirecting to index.html with the path preserved
+    (function() {
+      var path = window.location.pathname;
+      var basePath = '/calm-shop/';
+
+      // If we're already at the base or index, don't redirect
+      if (path === basePath || path === basePath + 'index.html') {
+        return;
+      }
+
+      // Remove the base path from the beginning
+      if (path.startsWith(basePath)) {
+        path = path.substring(basePath.length - 1); // Keep leading slash
+      }
+
+      // Redirect to index.html with the path as a hash
+      window.location.href = basePath + 'index.html#' + path;
+    })();
+  </script>
+</head>
+<body>
+  <p>Redirecting to <a href="/calm-shop/">Calm Shop</a>...</p>
+</body>
+</html>
