@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
 import { Layout } from './components/layout/Layout'
 import { Seo } from './components/Seo'
@@ -24,29 +24,26 @@ function ProtectedRoute({ children }) {
 }
 
 function App() {
-  const baseName = '/calm-shop/';
   return (
     <>
       <Seo />
-    <Suspense fallback={<PageLoader />}>
-    <BrowserRouter basename={baseName}>
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/shop/:slug" element={<ProductDetail />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/login" element={<Auth />} />
-        <Route path="/register" element={<Auth />} />
-        <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
-        <Route path="/:page" element={<InfoPage />} />
-        <Route path="*" element={<InfoPage />} />
-      </Route>
-    </Routes>
-    </BrowserRouter>
-    </Suspense>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/shop/:slug" element={<ProductDetail />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/login" element={<Auth />} />
+            <Route path="/register" element={<Auth />} />
+            <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
+            <Route path="/:page" element={<InfoPage />} />
+            <Route path="*" element={<InfoPage />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </>
   )
 }
