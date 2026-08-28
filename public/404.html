@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecting...</title>
+  <meta http-equiv="refresh" content="0;url=/calm-shop/?redirect=1" />
   <script>
     // Single Page App redirect for GitHub Pages
     // This handles the 404 on page refresh by redirecting to index.html with the path preserved
@@ -21,8 +22,8 @@
         path = path.substring(basePath.length - 1); // Keep leading slash
       }
 
-      // Redirect to index.html with the path as a hash
-      window.location.href = basePath + 'index.html#' + path;
+      // Redirect to index.html with the path as a query param
+      window.location.href = basePath + '?redirect=' + encodeURIComponent(path);
     })();
   </script>
 </head>

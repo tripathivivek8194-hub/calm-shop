@@ -14,16 +14,15 @@
     <title>Calm Shop — Geometric Forms for Calm Spaces</title>
     <script>
       // SPA redirect handling for GitHub Pages
-      // Converts hash-based URLs (from 404.html redirect) back to path-based URLs
+      // Handles redirect from 404.html with query parameter
       (function() {
         var basePath = '/calm-shop/';
-        var hash = window.location.hash;
+        var searchParams = new URLSearchParams(window.location.search);
+        var redirectPath = searchParams.get('redirect');
 
-        if (hash && hash.startsWith('#')) {
-          // Remove the hash and replace with path
-          var path = hash.substring(1);
-          // Replace the current URL without adding to history
-          window.history.replaceState(null, null, basePath + path);
+        if (redirectPath) {
+          // Remove the redirect parameter and replace with clean path
+          window.history.replaceState(null, null, basePath + redirectPath);
         }
       })();
     </script>
